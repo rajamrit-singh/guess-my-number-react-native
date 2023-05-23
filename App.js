@@ -1,8 +1,10 @@
 import { ImageBackground, StyleSheet } from 'react-native';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import StartGameScreen from './screens/StartGameScreen';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useState } from 'react';
 import GameScreen from './screens/GameScreen';
+import Colors from './constants/colors';
 
 export default function App() {
 
@@ -19,15 +21,17 @@ export default function App() {
   }
 
   return (
-    <LinearGradient style={styles.rootScreen} colors={['#4e0329', '#ddb52f']}>
+    <SafeAreaProvider>
+    <LinearGradient style={styles.rootScreen} colors={[Colors.primary800, Colors.accent500]}>
       <ImageBackground
         source={require('./assets/images/background.png')}
         resizeMode='cover'
         style={styles.rootScreen}
         imageStyle={styles.backgroundImage}>
-        {screen}
+        <SafeAreaView style={styles.rootScreen}>{screen}</SafeAreaView>
       </ImageBackground>
     </LinearGradient>
+    </SafeAreaProvider>
   );
 }
 
