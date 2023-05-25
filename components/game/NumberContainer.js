@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     numberText: {
         textAlign: 'center',
         fontSize: 36,
-        fontWeight: 'bold',
-        color: Colors.accent500
+        color: Colors.accent500,
+        fontFamily: 'open-sans-bold',
     }
 })
