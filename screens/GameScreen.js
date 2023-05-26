@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { View, Text, StyleSheet, Alert, FlatList } from "react-native";
+import { View, Text, StyleSheet, Alert, FlatList, useWindowDimensions } from "react-native";
 import Title from "../components/ui/Title";
 import NumberContainer from "../components/game/NumberContainer";
 import PrimaryButton from "../components/ui/PrimaryButton";
@@ -24,6 +24,7 @@ const GameScreen = ({ userNumber, onGameOver, setRoundsNumber }) => {
     const initialGuess = generateRandomInteger(1, 100, userNumber);
     const [currentGuess, setCurrentGuess] = useState(initialGuess);
     const [guessRounds, setGuessRounds] = useState([initialGuess]);
+    const { height, width } = useWindowDimensions();
 
     const nextGuessHandler = (direction) => {
         if ((direction == 'lower' && currentGuess < userNumber) || (direction == 'greater' && currentGuess > userNumber)) {
@@ -52,9 +53,8 @@ const GameScreen = ({ userNumber, onGameOver, setRoundsNumber }) => {
         }
     }, [currentGuess, userNumber]);
 
-    return (
-        <View style={styles.screen}>
-            <Title>Opponent's Guess</Title>
+    let content = (
+        <>
             <NumberContainer>{currentGuess}</NumberContainer>
             <Card>
                 <InstructionText style={styles.instructionText}>Higher or lower?</InstructionText>
@@ -66,21 +66,42 @@ const GameScreen = ({ userNumber, onGameOver, setRoundsNumber }) => {
                         <PrimaryButton onPress={nextGuessHandler.bind(this, 'lower')}><AntDesign name="minus" size={24} color="white" /></PrimaryButton>
                     </View>
                 </View>
-
             </Card>
+        </>
+    )
+    if (width > 600) {
+        content = (
+            <>
+                <InstructionText style={styles.instructionText}>Higher or lower?</InstructionText>
+                <View style={styles.landscapeButtonContainer}>
+                    <View style={styles.buttonContainer}>
+                        <PrimaryButton onPress={nextGuessHandler.bind(this, 'greater')}><AntDesign name="plus" size={24} color="white" /></PrimaryButton>
+                    </View>
+                    <NumberContainer>{currentGuess}</NumberContainer>
+                    <View style={styles.buttonContainer}>
+                        <PrimaryButton onPress={nextGuessHandler.bind(this, 'lower')}><AntDesign name="minus" size={24} color="white" /></PrimaryButton>
+                    </View>
+                </View>
+            </>
+        )
+    }
+    return (
+        <View style={styles.screen}>
+            <Title>Opponent's Guess</Title>
+            {content}
             <View style={styles.logRoundsContainer}>
-                    <FlatList
-                        data={guessRounds}
-                        renderItem={( itemData ) => {
-                            return (
-                                <View style={styles.logContainer}>
-                                    <Text>#{itemData.index + 1}</Text>
-                                    <Text>Opponent's guess: {itemData.item}</Text>
-                                </View>
-                            )
-                          }}
-                        keyExtractor={item => item}
-                    />
+                <FlatList
+                    data={guessRounds}
+                    renderItem={(itemData) => {
+                        return (
+                            <View style={styles.logContainer}>
+                                <Text>#{itemData.index + 1}</Text>
+                                <Text>Opponent's guess: {itemData.item}</Text>
+                            </View>
+                        )
+                    }}
+                    keyExtractor={item => item}
+                />
             </View>
         </View>
 
@@ -102,7 +123,8 @@ const styles = StyleSheet.create({
         flex: 1
     },
     instructionText: {
-        marginBottom: 12
+        marginBottom: 12,
+        textAlign: 'center'
     },
     logRoundsContainer: {
         flex: 1,
@@ -120,5 +142,10 @@ const styles = StyleSheet.create({
         borderRadius: 16,
         padding: 12,
         marginVertical: 8,
+    },
+    landscapeButtonContainer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center'
     }
 })
