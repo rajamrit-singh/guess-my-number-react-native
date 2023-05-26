@@ -1,4 +1,4 @@
-import { ImageBackground, StyleSheet } from 'react-native';
+import { ImageBackground, ScrollView, StyleSheet } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import StartGameScreen from './screens/StartGameScreen';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -51,6 +51,7 @@ export default function App() {
 
   return (
     <SafeAreaProvider>
+      {/* <ScrollView> */}
     <LinearGradient style={styles.rootScreen} colors={[Colors.primary800, Colors.accent500]}>
       <ImageBackground
         source={require('./assets/images/background.png')}
@@ -60,6 +61,7 @@ export default function App() {
         <SafeAreaView style={styles.rootScreen}>{screen}</SafeAreaView>
       </ImageBackground>
     </LinearGradient>
+    {/* </ScrollView> */}
     </SafeAreaProvider>
   );
 }
