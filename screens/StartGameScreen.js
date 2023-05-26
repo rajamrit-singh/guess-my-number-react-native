@@ -1,4 +1,4 @@
-import { TextInput, View, StyleSheet, Alert, ScrollView, useWindowDimensions, KeyboardAvoidingView } from "react-native";
+import { TextInput, View, StyleSheet, Alert, ScrollView, useWindowDimensions, KeyboardAvoidingView, Platform } from "react-native";
 import PrimaryButton from "../components/ui/PrimaryButton";
 import { useState } from "react";
 import Colors from "../constants/colors";
@@ -7,6 +7,7 @@ import Card from "../components/ui/Card";
 import InstructionText from "../components/ui/InstructionText";
 
 const StartGameScreen = ({ onPickNumber }) => {
+    console.log(Platform.OS)
     const { styles } = useStyle();
 
     const [enteredNumber, setEnteredNumber] = useState('')
@@ -54,7 +55,7 @@ const StartGameScreen = ({ onPickNumber }) => {
             </View>
         </KeyboardAvoidingView>
         </ScrollView>
-    )
+    );
 }
 
 const useStyle = () => {
